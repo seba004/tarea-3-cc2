@@ -3,7 +3,7 @@
 import  numpy as np
 import math
 from scipy import integrate
-import math
+import time
 import plot
 
 #edptype si es 1 es nomal si es 0 es de cond peridocas
@@ -140,7 +140,98 @@ def seccion1():
     P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x,t,u=diferenciacion(P1,h,k,edptype,soltype,alpha,beta)
     plot.show(x,t,u)
+def seccion2():
+    f1 = lambda x: np.exp(-200*x**2)
+    g1 = lambda x: 400*x*np.exp(-200*x**2)
+    l1 = lambda t: t*0
+    r1 = lambda t: t*0
+    c1=lambda x: 1
+    t_max=1
+    alpha=1
+    beta=1
+    edptype=1
+    soltype=1
+    h1=0.01
+    k1=0.001
+    h2=0.002
+    k2=0.001
+    h3=0.001
+    k3=0.001
+
+    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    tiempo1 = time.clock()
+    x1,t1,u1=diferenciacion(P1,h1,k1,edptype,soltype,alpha,beta)
+    tiempo2 = time.clock()
+    tiempo100=tiempo2-tiempo1
+
+    tiempo3 = time.clock()
+    x2,t2,u2=diferenciacion(P1,h2,k2,edptype,soltype,alpha,beta)
+    tiempo4 = time.clock()
+    tiempo500=tiempo4-tiempo3
+
+    tiempo5 = time.clock()
+    x3,t3,u3=diferenciacion(P1,h3,k3,edptype,soltype,alpha,beta)
+    tiempo6 = time.clock()
+    tiempo1000=tiempo6-tiempo5
+
+    print("el tiempo de 100 es:",tiempo100)
+    print("el tiempo de 500 es:",tiempo500)
+    print("el tiempo de 1000 es:",tiempo1000)
+    plot.show(x1,t1,u1)
+    plot.show(x2,t2,u2)
+    plot.show(x3,t3,u3)
+
+def seccion3():
+    f1 = lambda x: np.exp(-200*x**2)
+    g1 = lambda x: 400*x*np.exp(-200*x**2)
+    l1 = lambda t: t*0
+    r1 = lambda t: t*0
+    c1=lambda x: 1
+    t_max=1
+    alpha=1
+    beta=1
+    edptype=1
+    soltype=1
+    h1=0.002
+    k1=0.0009
+    h2=0.002
+    k2=0.001
+    h3=0.002
+    k3=0.01
+
+    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    x1,t1,u1=diferenciacion(P1,h1,k1,edptype,soltype,alpha,beta)
+    x2,t2,u2=diferenciacion(P1,h2,k2,edptype,soltype,alpha,beta)
+    x3,t3,u3=diferenciacion(P1,h3,k3,edptype,soltype,alpha,beta)
+    plot.show(x1,t1,u1)#funciona
+    plot.show(x2,t2,u2)#funciona
+    plot.show(x3,t3,u3)#muere
+
+def seccion4():
+    f1 = lambda x: x*0
+    g1 = lambda x: math.sin(math.pi*(x+1))
+    l1 = lambda t: t*0
+    r1 = lambda t: t*0
+    c1=lambda x: 2
+    t_max=1
+    alpha1=1
+    alpha0=0
+    beta1=1
+    beta0=0
+    edptype=1
+    soltype=1
+    h=0.002
+    k=0.001
+    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    x1,t1,u1=diferenciacion(P1,h,k,edptype,soltype,alpha1,beta1)#dir
+    x2,t2,u2=diferenciacion(P1,h,k,edptype,soltype,alpha0,beta0)#neu
+    x3,t3,u3=diferenciacion(P1,h,k,edptype,soltype,alpha1,beta0)#mix1
+    x4,t4,u4=diferenciacion(P1,h,k,edptype,soltype,alpha0,beta1)#mix2
+    plot.show(x1,t1,u1)
+    plot.show(x2,t2,u2)
+    plot.show(x3,t3,u3)
+    plot.show(x4,t4,u4)
 
 
 if __name__ == '__main__':
-    seccion1()
+    seccion4()
