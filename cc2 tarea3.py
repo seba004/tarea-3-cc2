@@ -4,6 +4,7 @@ import  numpy as np
 import math
 from scipy import integrate
 import math
+import plot
 
 #edptype si es 1 es nomal si es 0 es de cond peridocas
 #soltype si es 1 es explicita si es 0 es implicita
@@ -24,9 +25,8 @@ def normal_edo(P,alpha,beta,h,k):
     dt = k
     print("hola")
     S2 = lambda x: ((P["c"](x))*dt/dx)**2
-    print (S2)
-    #print "CFL condition: (c*dt/dx)^2 = %.4f <= 1.0 ?" %S2
-    # Storage
+
+
     u = np.zeros((Nx, Nt))
     # Time Loop
 
@@ -110,38 +110,37 @@ def normal_edo(P,alpha,beta,h,k):
             if(j==0):
                 for i in range(1,Nx-1):
                     u[i,0] = P["f"](x[i])
-                u[ 0,0] = (float(dx)/(alpha*dx+alpha-1))*P["l"](tj) - u[1,0]*((1-alpha)/(dx*P["alpha"]+P["alpha"]-1))#Usando Foward Difference
-                u[-1,0] = P["r"](tj)*(dx/(P["betha"]*dx-P["betha"]+1))+ u[-2,0]*((1-P["betha"])/(P["betha"]*dx-P["betha"]+1))
+                u[ 0,0] = (float(dx)/(alpha*dx+alpha-1))*P["l"](tj) - u[1,0]*((1-alpha)/(dx*alpha+alpha-1))#Usando Foward Difference
+                u[-1,0] = P["r"](tj)*(dx/(beta*dx-beta+1))+ u[-2,0]*((1-beta)/(beta*dx-beta+1))
             elif(j==1):
                 for i in range(1,Nx-1):
                     u[i, j] = .5*(S2(x[i]))*u[i+1,j-1] + (1-(S2(x[i])))*u[i,j-1] + .5*(S2(x[i]))*u[i-1,j-1] - dt*P["g"](x[i])
-                u[ 0,1] = (float(dx)/(P["alpha"]*dx+P["alpha"]-1))*P["l"](tj) - u[1,1]*((1-P["alpha"])/(dx*P["alpha"]+P["alpha"]-1))
-                u[-1,1] = P["r"](tj)*(dx/(P["betha"]*dx-P["betha"]+1))+ u[-2,1]*((1-P["betha"])/(P["betha"]*dx-P["betha"]+1))
+                u[ 0,1] = (float(dx)/(alpha*dx+alpha-1))*P["l"](tj) - u[1,1]*((1-alpha)/(dx*alpha+alpha-1))
+                u[-1,1] = P["r"](tj)*(dx/(beta*dx-beta+1))+ u[-2,1]*((1-beta)/(beta*dx-beta+1))
             else:
                 for i in range(1,Nx-1):
                     u[i, j] = (S2(x[i]))*u[i+1,j-1] + (2-2*(S2(x[i])))*u[i,j-1] + (S2(x[i]))*u[i-1,j-1] - u[i,j-2]
-                u[ 0,j] = (float(dx)/(P["alpha"]*dx+P["alpha"]-1))*P["l"](tj) - u[1,j]*((1-P["alpha"])/(dx*P["alpha"]+P["alpha"]-1))
-                u[-1,j] = P["r"](tj)*(dx/(P["betha"]*dx-P["betha"]+1))+ u[-2,j]*((1-P["betha"])/(P["betha"]*dx-P["betha"]+1))
+                u[ 0,j] = (float(dx)/(alpha*dx+alpha-1))*P["l"](tj) - u[1,j]*((1-alpha)/(dx*alpha+alpha-1))
+                u[-1,j] = P["r"](tj)*(dx/(beta*dx-beta+1))+ u[-2,j]*((1-beta)/(beta*dx-beta+1))
         return x, t, u
 
 def seccion1():
     f1 = lambda x: np.exp(-200*x**2)
-    g1 = lambda x: 400*x*np.exp(-200*x**2)
+    g1 = lambda x: 0 #400*x*np.exp(-200*x**2)
     l1 = lambda t: t*0
     r1 = lambda t: t*0
     c1=lambda x: 1
     t_max=100
     alpha=0
-    beta=0
+    beta=1
     edptype=1
     soltype=1
     h=0.002
     k=0.001
     P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x,t,u=diferenciacion(P1,h,k,edptype,soltype,alpha,beta)
-    return x,t,u
-    #show(xa,ta,ua)
+    plot.show(x,t,u)
 
 
 if __name__ == '__main__':
-    x,t,u=seccion1()
+    seccion1()
