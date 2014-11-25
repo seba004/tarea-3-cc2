@@ -238,7 +238,7 @@ def seccion5():
     l1 = lambda t: math.sin(t)
     r1 = lambda t: ((math.sin(t))*(math.cos(t)))/t
     c1=lambda x: (1.0/5.0)+((math.sin(x-1))**2)
-    t_max=2
+    t_max=0.1
     alpha=1
     beta=1
     edptype=1
