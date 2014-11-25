@@ -232,6 +232,21 @@ def seccion4():
     plot.show(x3,t3,u3)
     plot.show(x4,t4,u4)
 
-
+def seccion5():
+    f1 = lambda x: np.exp(-200*x**2)+((x+1)*x)/2.0
+    g1 = lambda x: (1.0/2.0)+x-400*np.exp(-200*x**2)*x
+    l1 = lambda t: math.sin(t)
+    r1 = lambda t: ((math.sin(t))*(math.cos(t)))/t
+    c1=lambda x: (1.0/5.0)+((math.sin(x-1))**2)
+    t_max=2
+    alpha=1
+    beta=1
+    edptype=1
+    soltype=1
+    k=0.001
+    h=0.002
+    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    x,t,u=diferenciacion(P1,h,k,edptype,soltype,alpha,beta)
+    plot.show(x,t,u)
 if __name__ == '__main__':
-    seccion4()
+    seccion5()
