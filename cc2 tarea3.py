@@ -79,12 +79,12 @@ def normal_edo(P,alpha,beta,h,k):
                 for i in range(1,Nx-1):
                     u[i, j] = .5*(S2(x[i]))*u[i+1,j-1] + (1-(S2(x[i])))*u[i,j-1] + .5*(S2(x[i]))*u[i-1,j-1] - dt*P["g"](x[i])
                 u[ 0,1] = P["l"](tj)
-                u[-1,1] = u[-2,1]+dx*P["r"](tj)#Backward
+                u[-1,1] = u[-2,1]+dx*P["r"](tj)
             else:
                 for i in range(1,Nx-1):
                     u[i, j] = (S2(x[i]))*u[i+1,j-1] + (2-2*(S2(x[i])))*u[i,j-1] + (S2(x[i]))*u[i-1,j-1] - u[i,j-2]
                 u[ 0,j] = P["l"](tj)
-                u[-1,j] = u[-2,j]+dx*P["r"](tj)# Backward
+                u[-1,j] = u[-2,j]+dx*P["r"](tj)
         return x, t, u
     #mixto con alpha0 y beta 1
     elif(alpha==0 and beta ==1):
@@ -97,12 +97,12 @@ def normal_edo(P,alpha,beta,h,k):
             elif(j==1):
                 for i in range(1,Nx-1):
                     u[i, j] = .5*(S2(x[i]))*u[i+1,j-1] + (1-(S2(x[i])))*u[i,j-1] + .5*(S2(x[i]))*u[i-1,j-1] - dt*P["g"](x[i])
-                u[ 0,1] = u[1,1]+dx*P["l"](tj)#Usando Foward Difference
+                u[ 0,1] = u[1,1]+dx*P["l"](tj)
                 u[-1,1] = P["r"](tj)
             else:
                 for i in range(1,Nx-1):
                     u[i, j] = (S2(x[i]))*u[i+1,j-1] + (2-2*(S2(x[i])))*u[i,j-1] + (S2(x[i]))*u[i-1,j-1] - u[i,j-2]
-                u[ 0,j] = u[1,j]+dx*P["l"](tj)#Usando Foward Difference
+                u[ 0,j] = u[1,j]+dx*P["l"](tj)
                 u[-1,j] = P["r"](tj)
         return x, t, u
     else:#robin
@@ -126,18 +126,18 @@ def normal_edo(P,alpha,beta,h,k):
 
 def seccion1():
     f1 = lambda x: np.exp(-200*x**2)
-    g1 = lambda x: 0 #400*x*np.exp(-200*x**2)
+    g1 = lambda x: 0#400*x*np.exp(-200*x**2)
     l1 = lambda t: t*0
     r1 = lambda t: t*0
     c1=lambda x: 1
     t_max=100
-    alpha=0
+    alpha=1
     beta=1
     edptype=1
     soltype=1
     h=0.002
     k=0.001
-    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    P1 = {"xmin":-1, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x,t,u=diferenciacion(P1,h,k,edptype,soltype,alpha,beta)
     plot.show(x,t,u)
 def seccion2():
@@ -151,14 +151,14 @@ def seccion2():
     beta=1
     edptype=1
     soltype=1
-    h1=0.01
+    h1=0.02
     k1=0.001
-    h2=0.002
+    h2=0.004
     k2=0.001
-    h3=0.001
+    h3=0.002
     k3=0.001
 
-    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    P1 = {"xmin":-1, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     tiempo1 = time.clock()
     x1,t1,u1=diferenciacion(P1,h1,k1,edptype,soltype,alpha,beta)
     tiempo2 = time.clock()
@@ -192,14 +192,14 @@ def seccion3():
     beta=1
     edptype=1
     soltype=1
-    h1=0.002
+    h1=0.004
     k1=0.0009
-    h2=0.002
+    h2=0.004
     k2=0.001
-    h3=0.002
+    h3=0.004
     k3=0.01
 
-    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    P1 = {"xmin":-1, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x1,t1,u1=diferenciacion(P1,h1,k1,edptype,soltype,alpha,beta)
     x2,t2,u2=diferenciacion(P1,h2,k2,edptype,soltype,alpha,beta)
     x3,t3,u3=diferenciacion(P1,h3,k3,edptype,soltype,alpha,beta)
@@ -220,17 +220,19 @@ def seccion4():
     beta0=0
     edptype=1
     soltype=1
-    h=0.002
+    h=0.004
     k=0.001
-    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    P1 = {"xmin":-1, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x1,t1,u1=diferenciacion(P1,h,k,edptype,soltype,alpha1,beta1)#dir
     x2,t2,u2=diferenciacion(P1,h,k,edptype,soltype,alpha0,beta0)#neu
     x3,t3,u3=diferenciacion(P1,h,k,edptype,soltype,alpha1,beta0)#mix1
     x4,t4,u4=diferenciacion(P1,h,k,edptype,soltype,alpha0,beta1)#mix2
+    x5,t5,u5=diferenciacion(P1,h,k,edptype,soltype,0.5,0.5)#robin
     plot.show(x1,t1,u1)
     plot.show(x2,t2,u2)
     plot.show(x3,t3,u3)
     plot.show(x4,t4,u4)
+    plot.show(x5,t5,u5)
 
 def seccion5():
     f1 = lambda x: np.exp(-200*x**2)+((x+1)*x)/2.0
@@ -238,15 +240,16 @@ def seccion5():
     l1 = lambda t: math.sin(t)
     r1 = lambda t: ((math.sin(t))*(math.cos(t)))/t
     c1=lambda x: (1.0/5.0)+((math.sin(x-1))**2)
-    t_max=0.1
+    t_max=20
     alpha=1
     beta=1
     edptype=1
     soltype=1
     k=0.001
-    h=0.002
-    P1 = {"xmin":0, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
+    h=0.004
+    P1 = {"xmin":-1, "xmax":1, "tmin":0, "tmax":t_max  , "c":c1,"f":f1,"g":g1, "l":l1, "r":r1}
     x,t,u=diferenciacion(P1,h,k,edptype,soltype,alpha,beta)
     plot.show(x,t,u)
+
 if __name__ == '__main__':
     seccion5()
